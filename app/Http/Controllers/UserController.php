@@ -1,0 +1,76 @@
+<?php
+
+namespace App\Http\Controllers;
+
+use App\Client;
+use App\User;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+
+class UserController extends Controller
+{
+    public function create(Request $request)
+    {
+        $valid = validator($request->only('email', 'name', 'password', 'mobile'), [
+            'name' => 'required|string|max:255',
+            'email' => 'required|string|email|max:255|unique:users',
+            'password' => 'required|string|min:6',
+        ]);
+        if ($valid->fails()) {
+            $jsonError = response()->json($valid->errors()->all(), 400);
+            return \Response::json($jsonError);
+        }
+        $data = request()->only('email', 'name', 'password');
+
+        $user = User::create([
+            'name' => $data['name'],
+            'email' => $data['email'],
+            'password' => bcrypt($data['password']),
+        ]);
+        $client = Client::where('password_client', 1)->first();
+        $request->request->add([
+            'grant_type' => 'password',
+            'client_id' => $client->id,
+            'client_secret' => $client->secret,
+            'username' => $data['email'],
+            'password' => $data['password'],
+            'scope' => null,
+        ]);
+        $token = Request::create(
+            'oauth/token',
+            'POST'
+        );
+        return \Route::dispatch($token);
+    }
+
+    public function login(Request $request)
+    {
+        $valid = validator($request->only('email', 'name', 'password', 'mobile'), [
+            'email' => 'required|string|email|max:255',
+            'password' => 'required|string|min:6',
+        ]);
+        if ($valid->fails()) {
+            $jsonError = response()->json($valid->errors()->all(), 400);
+            return \Response::json($jsonError);
+        }
+        $data = request()->only('email', 'name', 'password');
+        if (Auth::attempt(['email' => $data['email'], 'password' => $data['password']])) {
+            $client = Client::where('password_client', 1)->first();
+            $request->request->add([
+                'grant_type' => 'password',
+                'client_id' => $client->id,
+                'client_secret' => $client->secret,
+                'username' => $data['email'],
+                'password' => $data['password'],
+                'scope' => null,
+            ]);
+            $token = Request::create(
+                'oauth/token',
+                'POST'
+            );
+            return \Route::dispatch($token);;
+        } else {
+            return response()->json(['error' => 'Unauthorized'], 401);
+        }
+    }
+}
