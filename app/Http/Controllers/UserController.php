@@ -9,6 +9,12 @@ use Illuminate\Support\Facades\Auth;
 
 class UserController extends Controller
 {
+    public function __construct()
+    {
+        header('Access-Control-Allow-Origin: *');
+        header('Access-Control-Allow-Methods: GET, PUT, POST, DELETE, OPTIONS');
+    }
+
     public function create(Request $request)
     {
         $valid = validator($request->only('email', 'name', 'password', 'mobile'), [
@@ -68,9 +74,21 @@ class UserController extends Controller
                 'oauth/token',
                 'POST'
             );
-            return \Route::dispatch($token);;
+            $response = \Route::dispatch($token);
+            $responseArrayToModify = json_decode($response->getContent(), true);
+            $responseArrayToModify['userData'] = Auth::user();
+            $responseArrayToModify['meta'] = array('message' => 'Email and password not matching');
+            $response->setContent(json_encode($responseArrayToModify));
+            return $response;
         } else {
-            return response()->json(['error' => 'Unauthorized'], 401);
+            return response()->json(['meta' => ['error' => 'Unauthorized', 'message' => 'Email and Password not matching',
+                'auth' => 'no']],
+                200);
         }
+    }
+
+    public function getUserDetails()
+    {
+        return response()->json(Auth::user(), 200);
     }
 }
