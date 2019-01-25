@@ -77,12 +77,17 @@ class UserController extends Controller
             $response = \Route::dispatch($token);
             $responseArrayToModify = json_decode($response->getContent(), true);
             $responseArrayToModify['userData'] = Auth::user();
-            $responseArrayToModify['meta'] = array('message' => 'Email and password not matching');
+            $responseArrayToModify['meta'] = array('message' => 'Successfully login', 'auth' => 'yes');
             $response->setContent(json_encode($responseArrayToModify));
             return $response;
         } else {
-            return response()->json(['meta' => ['error' => 'Unauthorized', 'message' => 'Email and Password not matching',
-                'auth' => 'no']],
+            return response()->json([
+                'meta' => [
+                    'error' => 'Unauthorized',
+                    'message' => 'Email and Password not matching',
+                    'auth' => 'no'
+                ]
+            ],
                 200);
         }
     }
