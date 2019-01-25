@@ -9,10 +9,10 @@ use Illuminate\Support\Facades\Auth;
 
 class UserController extends Controller
 {
-    public function __construct()
+    public function getUsersOfSameNetwork()
     {
-        header('Access-Control-Allow-Origin: *');
-        header('Access-Control-Allow-Methods: GET, PUT, POST, DELETE, OPTIONS');
+        $users = User::all();
+        return response()->json(['users' => $users], 200);
     }
 
     public function create(Request $request)

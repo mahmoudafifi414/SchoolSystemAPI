@@ -1,7 +1,5 @@
 <?php
 
-use Illuminate\Http\Request;
-
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -15,9 +13,8 @@ use Illuminate\Http\Request;
 Route::post('/register', 'UserController@create');
 Route::post('/login', 'UserController@login');
 Route::post('/user-details', 'UserController@getUserDetails');
-
+Route::get('/users', 'UserController@getUsersOfSameNetwork');
 //posts routes
 Route::get('/posts', 'PostsController@getRelatedPosts');
-Route::get('/user', function (Request $request) {
-    return \App\User::find(1);
-});
+Route::post('/post/add', 'PostsController@storePost');
+Route::delete('/post/delete/{id}', 'PostsController@deleteRelatedPost');
