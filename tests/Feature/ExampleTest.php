@@ -12,10 +12,12 @@ class ExampleTest extends TestCase
      *
      * @return void
      */
-    public function testBasicTest()
+    public function testAuthorizedUserCanDeleteTheEducationalLevel()
     {
-        $response = $this->get('/');
-
-        $response->assertStatus(200);
+        $educationalLevel = factory('App\EducationalLevel')->create();
+        //When the user hit's the endpoint to delete the EducationalLevel
+        $this->delete('/api/education-level/' . $educationalLevel->id);
+        //The EducationalLevel should be deleted from the database.
+        $this->assertDatabaseMissing('educational_levels', ['id' => $educationalLevel->id]);
     }
 }

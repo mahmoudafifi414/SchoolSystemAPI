@@ -18,3 +18,15 @@ Route::get('/users', 'UserController@getUsersOfSameNetwork');
 Route::get('/posts', 'PostsController@getRelatedPosts');
 Route::post('/post/add', 'PostsController@storePost');
 Route::delete('/post/delete/{id}', 'PostsController@deleteRelatedPost');
+
+//Educational Levels Routes
+
+Route::get('/education-level', 'EducationalLevelController@index');
+Route::post('/education-level', 'EducationalLevelController@create');
+Route::delete('/education-level/{id}', 'EducationalLevelController@delete');
+
+//Subjects Routes
+
+Route::get('/subject', 'SubjectController@index');
+Route::post('/subject', 'SubjectController@create');
+Route::delete('/subject/{id}', 'SubjectController@delete');
