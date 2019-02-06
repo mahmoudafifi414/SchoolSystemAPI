@@ -15,9 +15,11 @@ class SubjectsController extends Controller
 
     public function create(Request $request)
     {
+
         $request->validate([
-            'name' => 'required|min:10',
+            'name' => 'required|min:6',
         ]);
+
         $subject = Subject::create([
             'name' => $request->get('name'),
         ]);
@@ -26,7 +28,7 @@ class SubjectsController extends Controller
 
     public function delete($subjectId)
     {
-        $subject = EducationalLevel::find($subjectId);
+        $subject = Subject::find($subjectId);
 
         if ($subject->delete()) {
             return response()->json(['subjectStatus' => 'deleted']);

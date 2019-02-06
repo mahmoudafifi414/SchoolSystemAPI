@@ -27,6 +27,15 @@ Route::delete('/education-level/{id}', 'EducationalLevelController@delete');
 
 //Subjects Routes
 
-Route::get('/subject', 'SubjectController@index');
-Route::post('/subject', 'SubjectController@create');
-Route::delete('/subject/{id}', 'SubjectController@delete');
+Route::get('/subject', 'SubjectsController@index');
+Route::post('/subject', 'SubjectsController@create');
+Route::delete('/subject/{id}', 'SubjectsController@delete');
+
+//semester Routes
+
+Route::get('/semester', 'SemesterController@index');
+Route::post('/semester', 'SemesterController@create');
+
+//academic year Routes
+Route::get('/year', 'SemesterController@index');
+Route::post('/year', 'SemesterController@create');
