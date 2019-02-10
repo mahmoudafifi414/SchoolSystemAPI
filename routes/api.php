@@ -13,7 +13,7 @@
 Route::post('/register', 'UserController@create');
 Route::post('/login', 'UserController@login');
 Route::post('/user-details', 'UserController@getUserDetails');
-Route::get('/users', 'UserController@getUsersOfSameNetwork');
+Route::get('/users/{numberPerPage?}', 'UserController@getUsersOfSameNetwork');
 //posts routes
 Route::get('/posts', 'PostsController@getRelatedPosts');
 Route::post('/post/add', 'PostsController@storePost');

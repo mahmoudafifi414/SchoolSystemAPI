@@ -9,11 +9,12 @@ use Illuminate\Support\Facades\Auth;
 
 class UserController extends Controller
 {
-    public function getUsersOfSameNetwork()
+    public function getUsersOfSameNetwork($numberPerPage = 10)
     {
-        $users = User::with('roles')->get();
+        $users = User::with('roles')->paginate($numberPerPage);
         return response()->json(['users' => $users], 200);
     }
+
 
     public function create(Request $request)
     {
