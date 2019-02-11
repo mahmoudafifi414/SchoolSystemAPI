@@ -7,6 +7,12 @@ use Illuminate\Http\Request;
 
 class YearController extends Controller
 {
+    public function index($numberPerPage = 10)
+    {
+        $years = Year::paginate($numberPerPage);
+        return response()->json(['years' => $years], 200);
+    }
+
     public function create(Request $request)
     {
         $request->validate([

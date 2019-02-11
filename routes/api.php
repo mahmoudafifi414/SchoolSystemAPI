@@ -37,5 +37,5 @@ Route::get('/semester', 'SemesterController@index');
 Route::post('/semester', 'SemesterController@create');
 
 //academic year Routes
-Route::get('/year', 'SemesterController@index');
-Route::post('/year', 'SemesterController@create');
+Route::get('/year', 'YearController@index');
+Route::post('/year', 'YearController@create');
