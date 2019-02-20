@@ -2,8 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Classroom;
 use App\Client;
+use App\Role;
 use App\User;
+use App\Year;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -91,6 +94,14 @@ class UserController extends Controller
             ],
                 200);
         }
+    }
+
+    public function prepareDataToAddNewUser()
+    {
+        $roles = Role::all();
+        $classrooms = Classroom::all();
+        $years = Year::all();
+        return response()->json(['roles' => $roles, 'classrooms' => $classrooms,'years'=>$years], 200);
     }
 
     public function getUserDetails()

@@ -14,6 +14,7 @@ Route::post('/register', 'UserController@create');
 Route::post('/login', 'UserController@login');
 Route::post('/user-details', 'UserController@getUserDetails');
 Route::get('/users/{numberPerPage?}', 'UserController@getUsersOfSameNetwork');
+Route::get('/user/prepare-data', 'UserController@prepareDataToAddNewUser');
 //posts routes
 Route::get('/posts', 'PostsController@getRelatedPosts');
 Route::post('/post/add', 'PostsController@storePost');
