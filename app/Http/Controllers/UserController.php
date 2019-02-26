@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Classroom;
 use App\Client;
 use App\Role;
+use App\Subject;
 use App\User;
 use App\Year;
 use Illuminate\Http\Request;
@@ -96,12 +97,20 @@ class UserController extends Controller
         }
     }
 
-    public function prepareDataToAddNewUser()
+    public function prepareDataToAddOrEditUser()
     {
         $roles = Role::all();
         $classrooms = Classroom::all();
         $years = Year::all();
-        return response()->json(['roles' => $roles, 'classrooms' => $classrooms,'years'=>$years], 200);
+        $subjects = Subject::all();
+        return response()->json(['roles' => $roles, 'classrooms' => $classrooms, 'years' => $years, 'subjects' => $subjects],
+            200);
+    }
+
+    public function edit($id)
+    {
+        $userData = User::find($id);
+        return response()->json(['preparedData' => $this->prepareDataToAddOrEditUser(), 'userData' => $userData], 200);
     }
 
     public function getUserDetails()
