@@ -1,8 +1,8 @@
 <?php
 
-use Illuminate\Support\Facades\Schema;
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
 
 class CreateUsersTable extends Migration
 {
@@ -20,6 +20,12 @@ class CreateUsersTable extends Migration
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->rememberToken();
+            $table->string('phone_number', 40);
+            $table->string('home_phone_number', 40);
+            $table->string('age', 3);
+            $table->string('country', 20);
+            $table->string('city', 20);
+            $table->string('address', 255);
             $table->timestamps();
         });
     }

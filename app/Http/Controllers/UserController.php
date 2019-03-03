@@ -4,12 +4,14 @@ namespace App\Http\Controllers;
 
 use App\Classroom;
 use App\Client;
+use App\Events\UserCreation;
 use App\Role;
 use App\Subject;
 use App\User;
 use App\Year;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class UserController extends Controller
 {
@@ -105,6 +107,32 @@ class UserController extends Controller
         $subjects = Subject::all();
         return response()->json(['roles' => $roles, 'classrooms' => $classrooms, 'years' => $years, 'subjects' => $subjects],
             200);
+    }
+
+    public function store(Request $request)
+    {
+        $userInstance = new User;
+        $userInstance->name = $request->name;
+        $userInstance->email = $request->email;
+        $userInstance->password = bcrypt($request->password);
+        $userInstance->phone_number = $request->phoneNumber;
+        $userInstance->home_phone_number = $request->homePhoneNumber;
+        $userInstance->age = $request->age;
+        $userInstance->country = $request->country;
+        $userInstance->city = $request->city;
+        $userInstance->address = $request->address;
+        DB::transaction(function () use ($userInstance, $request) {
+            $userInstance->save();
+            $userDetailsData = array();
+            $userDetailsData['userId'] = $userInstance->id;
+            $userDetailsData['roleName'] = $request->roleName;
+            $userDetailsData['yearId'] = $request->year;
+            $userDetailsData['classroomId'] = $request->classroom;
+            $userDetailsData['subjectId'] = $request->subject;
+            $userDetailsData['roles'] = $request->roles;
+            event(new UserCreation($userDetailsData));
+        });
+        return response()->json(['data' => $request->name]);
     }
 
     public function edit($id)
