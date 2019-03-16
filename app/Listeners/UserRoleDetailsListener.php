@@ -5,7 +5,7 @@ namespace App\Listeners;
 use App\Events\UserCreation;
 use App\UserStudentDetails;
 
-class UserRoleListener
+class UserRoleDetailsListener
 {
     /**
      * Create the event listener.

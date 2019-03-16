@@ -13,7 +13,8 @@ class EventServiceProvider extends ServiceProvider
      */
     protected $listen = [
         'App\Events\UserCreation' => [
-            'App\Listeners\UserRoleListener'
+            'App\Listeners\UserRolesListener',
+            'App\Listeners\UserRoleDetailsListener'
         ],
     ];
 

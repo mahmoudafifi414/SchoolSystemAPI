@@ -12,4 +12,9 @@ class Year extends Model
     {
         $this->belongsToMany('App/Semester');
     }
+
+    public function classrooms()
+    {
+        return $this->belongsToMany(Classroom::class);
+    }
 }

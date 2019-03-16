@@ -17,7 +17,7 @@ class UserController extends Controller
 {
     public function getUsersOfSameNetwork($numberPerPage = 10)
     {
-        $users = User::with('roles')->paginate($numberPerPage);
+        $users = User::with('roles')->orderBy('created_at', 'desc')->paginate($numberPerPage);
         return response()->json(['users' => $users], 200);
     }
 
@@ -130,7 +130,7 @@ class UserController extends Controller
             $userDetailsData['classroomId'] = $request->classroom;
             $userDetailsData['subjectId'] = $request->subject;
             $userDetailsData['roles'] = $request->roles;
-            event(new UserCreation($userDetailsData));
+            event(new UserCreation($userDetailsData, $userInstance));
         });
         return response()->json(['data' => $request->name]);
     }
@@ -139,6 +139,11 @@ class UserController extends Controller
     {
         $userData = User::find($id);
         return response()->json(['preparedData' => $this->prepareDataToAddOrEditUser(), 'userData' => $userData], 200);
+    }
+
+    public function update(Request $request, $id)
+    {
+
     }
 
     public function getUserDetails()

@@ -17,9 +17,11 @@ class UserCreation
      * @return void
      */
     public $userDetailsData;
+    public $userInstance;
 
-    public function __construct($userDetailsData)
+    public function __construct($userDetailsData,$userInstance)
     {
+        $this->userInstance = $userInstance;
         $this->userDetailsData = $userDetailsData;
     }
 

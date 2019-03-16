@@ -29,4 +29,10 @@ class YearController extends Controller
         ]);
         return response()->json(['year' => $year], 200);
     }
+
+    public function getRelationsData($yearId)
+    {
+        $yearRelationData = Year::with(['classrooms'])->find($yearId);
+        return response()->json(['data' => $yearRelationData]);
+    }
 }
