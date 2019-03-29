@@ -40,6 +40,13 @@ Route::get('/semester', 'SemesterController@index');
 Route::post('/semester', 'SemesterController@create');
 
 //academic year Routes
-Route::get('/year', 'YearController@index');
+Route::get('/year/{numberPerPage?}', 'YearController@index');
 Route::post('/year', 'YearController@create');
 Route::get('/year/get-relations-data/{id}', 'YearController@getRelationsData');
+Route::post('/year/attach-classroom', 'YearController@attachClassroom');
+Route::post('/year/detach-classroom', 'YearController@detachClassroom');
+
+//classrooms routes
+route::get('/classroom/{numberPerPage?}', 'ClassroomController@index');
+route::get('/classroom/get-related-years/{classroomId}', 'ClassroomController@getRelatedYears');
+route::get('/classroom/get-display-option-data', 'ClassroomController@getDisplayOptionData');

@@ -102,6 +102,7 @@ class UserController extends Controller
     public function prepareDataToAddOrEditUser()
     {
         $roles = Role::all();
+        DB::table('SS');
         $classrooms = Classroom::all();
         $years = Year::all();
         $subjects = Subject::all();

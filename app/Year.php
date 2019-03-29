@@ -17,4 +17,9 @@ class Year extends Model
     {
         return $this->belongsToMany(Classroom::class);
     }
+
+    public function students()
+    {
+        return $this->belongsToMany(User::class, 'users_students_details');
+    }
 }

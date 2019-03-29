@@ -8,6 +8,6 @@ class Classroom extends Model
 {
     public function years()
     {
-        return $this->belongsToMany('App/Year');
+        return $this->belongsToMany(Year::class);
     }
 }
