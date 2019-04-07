@@ -18,10 +18,8 @@ class CreateYearSemesterTable extends Migration
             $table->integer('year_id')->unsigned()->nullable();
             $table->foreign('year_id')->references('id')
                 ->on('years')->onDelete('cascade');
-
-            $table->integer('semseter_id')->unsigned()->nullable();
-            $table->foreign('semseter_id')->references('id')
-                ->on('semesters')->onDelete('cascade');
+            $table->date('start_date')->nullable();
+            $table->date('end_date')->nullable();
             $table->timestamps();
         });
     }

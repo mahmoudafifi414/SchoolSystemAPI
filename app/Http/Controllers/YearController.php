@@ -85,4 +85,15 @@ class YearController extends Controller
             return response()->json(['data' => 'failed to detach classroom from year'], 500);
         }
     }
+
+    public function attachSemester(Request $request)
+    {
+        $yearId = $request->yearId;
+        $semesterId = $request->semesterId;
+    }
+
+    public function detachSemester(Request $request)
+    {
+
+    }
 }

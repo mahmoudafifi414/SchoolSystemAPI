@@ -45,8 +45,10 @@ Route::post('/year', 'YearController@create');
 Route::get('/year/get-relations-data/{id}', 'YearController@getRelationsData');
 Route::post('/year/attach-classroom', 'YearController@attachClassroom');
 Route::post('/year/detach-classroom', 'YearController@detachClassroom');
+Route::post('/year/attach-semester', 'YearController@attachSemester');
+Route::post('/year/detach-semester', 'YearController@detachSemester');
 
 //classrooms routes
 route::get('/classroom/{numberPerPage?}', 'ClassroomController@index');
 route::get('/classroom/get-related-years/{classroomId}', 'ClassroomController@getRelatedYears');
-route::get('/classroom/get-display-option-data', 'ClassroomController@getDisplayOptionData');
+route::post('/classroom/get-display-option-data', 'ClassroomController@getDisplayOptionData');
