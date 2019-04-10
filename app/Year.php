@@ -10,7 +10,7 @@ class Year extends Model
 
     public function semesters()
     {
-        $this->belongsToMany('App/Semester');
+        return $this->belongsToMany(Semester::class, 'year_semester')->withPivot('start_date', 'end_date');
     }
 
     public function classrooms()

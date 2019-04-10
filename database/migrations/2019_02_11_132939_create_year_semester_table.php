@@ -16,8 +16,11 @@ class CreateYearSemesterTable extends Migration
         Schema::create('year_semester', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('year_id')->unsigned()->nullable();
+            $table->integer('semester_id')->unsigned()->nullable();
             $table->foreign('year_id')->references('id')
                 ->on('years')->onDelete('cascade');
+            $table->foreign('semester_id')->references('id')
+                ->on('semesters')->onDelete('cascade');
             $table->date('start_date')->nullable();
             $table->date('end_date')->nullable();
             $table->timestamps();

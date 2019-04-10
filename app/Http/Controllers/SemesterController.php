@@ -3,15 +3,18 @@
 namespace App\Http\Controllers;
 
 use App\Semester;
-use App\Year;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 class SemesterController extends Controller
 {
-    public function index($numberPerPage = 10)
+    public function index($numberPerPage = null)
     {
-        $semesters = Semester::paginate($numberPerPage);
+        if ($numberPerPage) {
+            $semesters = Semester::paginate($numberPerPage);
+        } else {
+            $semesters = Semester::get();
+        }
         return response()->json(['semesters' => $semesters], 200);
     }
 

@@ -3,8 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Classroom;
+use App\Semester;
 use App\Year;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class YearController extends Controller
 {
@@ -41,6 +43,8 @@ class YearController extends Controller
             $query->select('classrooms.id', 'classrooms.name');
         }, 'students' => function ($query) {
             $query->select('users.id', 'users.name');
+        }, 'semesters' => function ($query) {
+
         }])->find($yearId);
         return response()->json(['data' => $yearRelationData], 200);
     }
@@ -90,10 +94,32 @@ class YearController extends Controller
     {
         $yearId = $request->yearId;
         $semesterId = $request->semesterId;
+        try {
+            $year = Year::find($yearId);
+            if (!$year->semesters->contains($semesterId)) {
+                $year->semesters()->attach([$semesterId => ['start_date' => $request->startDate,
+                    'end_date' => $request->endDate]]);
+            }
+            $returnData = Semester::find($semesterId);
+            $returnData['pivot']=DB::table('year_semester')->where([['semester_id',$semesterId],['year_id',$yearId]])
+                ->first(['year_id','semester_id','start_date','end_date']);
+            return response()->json(['data' => $returnData], 200);
+        } catch (\Exception $exception) {
+            return response()->json(['data' => 'failed to attach semester to year'], 500);
+        }
     }
 
     public function detachSemester(Request $request)
     {
-
+        $yearId = $request->yearId;
+        $semesterId = $request->semesterId;
+        try {
+            $year = Year::find($yearId);
+            $returnData = $semesterId;
+            $year->semesters()->detach($semesterId);
+            return response()->json(['data' => $returnData], 200);
+        } catch (\Exception $exception) {
+            return response()->json(['data' => 'failed to detach semester from year'], 500);
+        }
     }
 }
