@@ -20,5 +20,11 @@ $factory->define(App\User::class, function (Faker $faker) {
         'email_verified_at' => now(),
         'password' => '$2y$10$TKh8H1.PfQx37YgCzwiKb.KjNyWgaHb9cbcoQgdIVFlYg7B77UdFm', // secret
         'remember_token' => str_random(10),
+        'home_phone_number'=>$faker->phoneNumber,
+        'phone_number'=>$faker->phoneNumber,
+        'age'=>$faker->numberBetween(0,100),
+        'country'=>str_random(10),
+        'city'=>$faker->city,
+        'address'=>$faker->address
     ];
 });

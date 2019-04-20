@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Semester;
-use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 class SemesterController extends Controller
@@ -20,19 +19,14 @@ class SemesterController extends Controller
 
     public function create(Request $request)
     {
+        try {
+            $semester = Semester::create([
+                'name' => $request->name,
+            ]);
+            return response()->json(['msg' => 'semester Added Successfully'], 200);
+        } catch (\Exception $exception) {
+            return response()->json(['msg' => 'Error Occurred'], 500);
+        }
 
-        $request->validate([
-            'name' => 'required',
-            'startDate' => 'required',
-            'endDate' => 'required'
-        ]);
-        $startDateTime = Carbon::parse($request->startDate);
-        $endDateTime = Carbon::parse($request->endDate);
-        $semester = Semester::create([
-            'name' => $request->name,
-            'start_date' => $startDateTime->format('Y-m-d'),
-            'end_date' => $endDateTime->format('Y-m-d')
-        ]);
-        return response()->json(['semester' => $semester], 200);
     }
 }

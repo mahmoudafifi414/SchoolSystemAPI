@@ -10,4 +10,9 @@ class Classroom extends Model
     {
         return $this->belongsToMany(Year::class);
     }
+
+    public function subjects()
+    {
+        return $this->belongsToMany(Subject::class, 'subjects_details', 'classroom_id');
+    }
 }

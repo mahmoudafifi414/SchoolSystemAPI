@@ -22,30 +22,32 @@ class YearController extends Controller
 
     public function create(Request $request)
     {
-        $request->validate([
-            'name' => 'required',
-            'startDate' => 'required',
-            'endDate' => 'required'
-        ]);
-        $startDateTime = Carbon::parse($request->startDate);
-        $endDateTime = Carbon::parse($request->endDate);
-        $year = Year::create([
-            'name' => $request->name,
-            'start_date' => $startDateTime->format('Y-m-d'),
-            'end_date' => $endDateTime->format('Y-m-d')
-        ]);
-        return response()->json(['year' => $year], 200);
+        try {
+            $year = Year::create([
+                'name' => $request->name,
+                'start_date' => $request->startDate,
+                'end_date' => $request->endDate
+            ]);
+            return response()->json(['msg' => 'Year Added Successfully'], 200);
+        } catch (\Exception $exception) {
+            return response()->json(['msg' => 'Error Occurred'], 500);
+        }
+
     }
 
     public function getRelationsData($yearId)
     {
-        $yearRelationData = Year::with(['classrooms' => function ($query) {
-            $query->select('classrooms.id', 'classrooms.name');
-        }, 'students' => function ($query) {
-            $query->select('users.id', 'users.name');
-        }, 'semesters' => function ($query) {
+        $yearRelationData = Year::with([
+            'classrooms' => function ($query) {
+                $query->select('classrooms.id', 'classrooms.name');
+            },
+            'students' => function ($query) {
+                $query->select('users.id', 'users.name');
+            },
+            'semesters' => function ($query) {
 
-        }])->find($yearId);
+            }
+        ])->find($yearId);
         return response()->json(['data' => $yearRelationData], 200);
     }
 
@@ -97,12 +99,19 @@ class YearController extends Controller
         try {
             $year = Year::find($yearId);
             if (!$year->semesters->contains($semesterId)) {
-                $year->semesters()->attach([$semesterId => ['start_date' => $request->startDate,
-                    'end_date' => $request->endDate]]);
+                $year->semesters()->attach([
+                    $semesterId => [
+                        'start_date' => $request->startDate,
+                        'end_date' => $request->endDate
+                    ]
+                ]);
             }
             $returnData = Semester::find($semesterId);
-            $returnData['pivot']=DB::table('year_semester')->where([['semester_id',$semesterId],['year_id',$yearId]])
-                ->first(['year_id','semester_id','start_date','end_date']);
+            $returnData['pivot'] = DB::table('year_semester')->where([
+                ['semester_id', $semesterId],
+                ['year_id', $yearId]
+            ])
+                ->first(['year_id', 'semester_id', 'start_date', 'end_date']);
             return response()->json(['data' => $returnData], 200);
         } catch (\Exception $exception) {
             return response()->json(['data' => 'failed to attach semester to year'], 500);

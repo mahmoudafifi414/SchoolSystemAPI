@@ -52,6 +52,6 @@ Route::post('/year/detach-semester', 'YearController@detachSemester');
 route::get('/classroom/{numberPerPage?}', 'ClassroomController@index');
 route::get('/classroom/get-related-years/{classroomId}', 'ClassroomController@getRelatedYears');
 route::post('/classroom/get-display-option-data', 'ClassroomController@getDisplayOptionData');
-
+Route::get('/classroom/get-relations-data/{id}', 'ClassroomController@getRelationsData');
 //semesters routes
 route::get('/semester/{numberPerPage?}', 'SemesterController@index');
