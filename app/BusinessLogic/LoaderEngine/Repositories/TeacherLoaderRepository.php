@@ -9,7 +9,7 @@ class TeacherLoaderRepository implements Repository
 {
     public function getEntityData(?array $condition)
     {
-        $columns=['Id','Name','Email','Address'];
+        $columns = ['Id', 'Name', 'Email', 'Address'];
         $studentData = DB::table('users')
             ->rightJoin('users_teachers_details', 'users.id', '=', 'users_teachers_details.user_id')
             ->select('users.id AS Id',
@@ -20,8 +20,8 @@ class TeacherLoaderRepository implements Repository
         if (is_array($condition)) {
             $studentData->where($condition);
         }
-        $response['tableData']=$studentData->get();
-        $response['tableColumns']=$columns;
+        $response['tableData'] = $studentData->get();
+        $response['tableColumns'] = $columns;
         return $response;
     }
 }
