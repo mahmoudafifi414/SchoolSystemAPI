@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\BusinessLogic\LoaderEngine\ModelBuilder;
+use App\BusinessLogic\Utilities\Repositories\ClassroomRepositories;
+use App\BusinessLogic\Utilities\Repositories\ClassroomRepository;
 use App\Classroom;
 use Illuminate\Http\Request;
 
@@ -18,20 +20,27 @@ class ClassroomController extends Controller
         return response()->json(['classrooms' => $classrooms], 200);
     }
 
-    public function getRelatedYears($classroomsId)
+    public function getRelatedYears($classroomId)
     {
         $relatedYears = Classroom::with([
             'years' => function ($query) {
                 $query->select('years.id', 'years.name');
             }
-        ])->select('id')->find($classroomsId);
+        ])->select('id')->find($classroomId);
         return response()->json(['data' => $relatedYears], 200);
     }
-
+    public function getRelatedSemesters($classroomId){
+        $relatedSemesters = ClassroomRepository::getSemesters($classroomId);
+        return response()->json(['data' => $relatedSemesters], 200);
+    }
+    public function getRelatedSubjects($classroomId,$yearId){
+        $relatedSubjects = ClassroomRepository::getSemesters($classroomId,$yearId);
+        return response()->json(['data' => $relatedSubjects], 200);
+    }
     public function getRelationsData($classroomId)
     {
         $classroomRelationData = Classroom::with([
-            'subjetcs' => function ($query) {
+            'subjects' => function ($query) {
                 $query->select('subjects.id', 'subjects.name');
             }
         ])->find($classroomId);

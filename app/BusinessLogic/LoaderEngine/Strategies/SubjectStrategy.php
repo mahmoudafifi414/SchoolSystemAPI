@@ -16,10 +16,10 @@ class SubjectStrategy implements StrategyInterface
 
     public function build(?array $condition)
     {
-        return $this->getColumnsAndData($condition);
+        return $this->getData($condition);
     }
 
-    public function getColumnsAndData(?array $condition)
+    public function getData(?array $condition)
     {
         return $this->subjectLoaderRepository->getEntityData($condition);
     }
