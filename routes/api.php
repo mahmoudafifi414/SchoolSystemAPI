@@ -28,11 +28,6 @@ Route::get('/education-level', 'EducationalLevelController@index');
 Route::post('/education-level', 'EducationalLevelController@create');
 Route::delete('/education-level/{id}', 'EducationalLevelController@delete');
 
-//Subjects Routes
-
-Route::get('/subject', 'SubjectsController@index');
-Route::post('/subject', 'SubjectsController@create');
-Route::delete('/subject/{id}', 'SubjectsController@delete');
 
 //semester Routes
 
@@ -57,3 +52,7 @@ route::post('/classroom/get-display-option-data', 'ClassroomController@getDispla
 Route::get('/classroom/get-relations-data/{id}', 'ClassroomController@getRelationsData');
 //semesters routes
 route::get('/semester/{numberPerPage?}', 'SemesterController@index');
+
+//Subjects Routes
+
+route::get('/subject/{numbnerPerPage?}', 'SubjectController@index');

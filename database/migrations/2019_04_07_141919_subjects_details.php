@@ -18,6 +18,7 @@ class SubjectsDetails extends Migration
             $table->unsignedInteger('subject_id');
             $table->unsignedInteger('year_id');
             $table->unsignedInteger('classroom_id');
+            $table->unsignedInteger('semester_id');
             $table->timestamps();
 
             $table->foreign('subject_id')->references('id')
@@ -26,6 +27,8 @@ class SubjectsDetails extends Migration
                 ->on('years');
             $table->foreign('classroom_id')->references('id')
                 ->on('classrooms');
+            $table->foreign('semester_id')->references('id')
+                ->on('semesters');
         });
     }
 

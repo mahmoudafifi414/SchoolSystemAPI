@@ -23,7 +23,8 @@ class ClassroomRepository
     {
         return DB::table('subjects')
             ->join('subjects_details', 'subjects.id', '=', 'subjects_details.subject_id')
-            ->where([['classrooms.id', $classroomId],['year_id',$yearId]])
+            ->where([['subjects_details.classroom_id', $classroomId],['subjects_details.year_id',$yearId]])
+            ->select('subjects.id','subjects.name','subjects_details.semester_id')
             ->get();
     }
 }

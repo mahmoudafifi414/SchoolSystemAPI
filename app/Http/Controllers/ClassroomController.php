@@ -34,7 +34,7 @@ class ClassroomController extends Controller
         return response()->json(['data' => $relatedSemesters], 200);
     }
     public function getRelatedSubjects($classroomId,$yearId){
-        $relatedSubjects = ClassroomRepository::getSemesters($classroomId,$yearId);
+        $relatedSubjects = ClassroomRepository::getSubjects($classroomId,$yearId);
         return response()->json(['data' => $relatedSubjects], 200);
     }
     public function getRelationsData($classroomId)
