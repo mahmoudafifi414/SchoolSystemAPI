@@ -6,6 +6,8 @@ use App\BusinessLogic\LoaderEngine\ModelBuilder;
 use App\BusinessLogic\Utilities\Repositories\ClassroomRepositories;
 use App\BusinessLogic\Utilities\Repositories\ClassroomRepository;
 use App\Classroom;
+use App\Subject;
+use App\SubjectDetails;
 use Illuminate\Http\Request;
 
 class ClassroomController extends Controller
@@ -64,6 +66,24 @@ class ClassroomController extends Controller
             return $exception;
             $returnedArray = array('tableColumns' => array(), 'tableData' => array());
             return response()->json(['data' => $returnedArray]);
+        }
+    }
+    public function attachSubjectToSemester(Request $request)
+    {
+        $yearId = $request->yearId;
+        $classroomId = $request->classroomId;
+        $semesterId = $request->semesterId;
+        $subjectIds = $request->subjectIds;
+        try {
+            $data = array();
+            foreach ($subjectIds as $subjectId) {
+                $data[] = array('year_id' => $yearId, 'classroom_id' => $classroomId, 'semester_id' => $semesterId, 'subject_id' => $subjectId);
+            }
+            SubjectDetails::insert($data);
+            $subjects = Subject::whereIn('id', $subjectIds)->get();
+            return response()->json(['data' => $subjects], 200);
+        } catch (\Exception $exception) {
+            return response()->json(['data' => 'failed to attach subject to semester'], 500);
         }
     }
 }

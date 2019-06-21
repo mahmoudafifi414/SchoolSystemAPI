@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Semester;
+use App\Subject;
+use App\SubjectDetails;
 use Illuminate\Http\Request;
 
 class SemesterController extends Controller
