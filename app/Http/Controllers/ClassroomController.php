@@ -79,11 +79,24 @@ class ClassroomController extends Controller
             foreach ($subjectIds as $subjectId) {
                 $data[] = array('year_id' => $yearId, 'classroom_id' => $classroomId, 'semester_id' => $semesterId, 'subject_id' => $subjectId);
             }
-            SubjectDetails::insert($data);
-            $subjects = Subject::whereIn('id', $subjectIds)->get();
+            SubjectDetails::insert(array_unique($data));
+            $subjects = ClassroomRepository::getSubjectsAfterSync($classroomId,$yearId,$subjectIds,$semesterId);
             return response()->json(['data' => $subjects], 200);
         } catch (\Exception $exception) {
-            return response()->json(['data' => 'failed to attach subject to semester'], 500);
+            return response()->json(['data' => 'failed to attach subject to semester','ex'=>$exception], 500);
+        }
+    }
+    public function detachSubjectToSemester(Request $request)
+    {
+        $yearId = $request->yearId;
+        $classroomId = $request->classroomId;
+        $semesterId = $request->semesterId;
+        $subjectId = $request->subjectId;
+        try {
+            ClassroomRepository::deleteSubjectsInDetachSemester($classroomId,$yearId,$subjectId,$semesterId);
+            return response()->json(['data' => $subjectId], 200);
+        } catch (\Exception $exception) {
+            return response()->json(['data' => 'failed to detach subject from semester','ex'=>$exception], 500);
         }
     }
 }
