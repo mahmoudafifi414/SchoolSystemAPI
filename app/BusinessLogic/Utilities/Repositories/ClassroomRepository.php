@@ -44,14 +44,12 @@ class ClassroomRepository
 
     public static function deleteSubjectsInDetachSemester($classroomId, $yearId, $subjectId, $semesterId)
     {
-        return DB::table('subjects')
-            ->join('subjects_details', 'subjects.id', '=', 'subjects_details.subject_id')
+        return DB::table('subjects_details')
             ->where(
                 [
                     ['subjects_details.classroom_id', $classroomId], ['subjects_details.year_id', $yearId],
                     ['subjects_details.semester_id', $semesterId], ['subjects_details.subject_id', $subjectId]
                 ])
-            ->select('subjects.id', 'subjects.name', 'subjects_details.semester_id')
             ->delete();
     }
 }

@@ -31,14 +31,19 @@ class ClassroomController extends Controller
         ])->select('id')->find($classroomId);
         return response()->json(['data' => $relatedYears], 200);
     }
-    public function getRelatedSemesters($classroomId){
+
+    public function getRelatedSemesters($classroomId)
+    {
         $relatedSemesters = ClassroomRepository::getSemesters($classroomId);
         return response()->json(['data' => $relatedSemesters], 200);
     }
-    public function getRelatedSubjects($classroomId,$yearId){
-        $relatedSubjects = ClassroomRepository::getSubjects($classroomId,$yearId);
+
+    public function getRelatedSubjects($classroomId, $yearId)
+    {
+        $relatedSubjects = ClassroomRepository::getSubjects($classroomId, $yearId);
         return response()->json(['data' => $relatedSubjects], 200);
     }
+
     public function getRelationsData($classroomId)
     {
         $classroomRelationData = Classroom::with([
@@ -68,6 +73,7 @@ class ClassroomController extends Controller
             return response()->json(['data' => $returnedArray]);
         }
     }
+
     public function attachSubjectToSemester(Request $request)
     {
         $yearId = $request->yearId;
@@ -79,13 +85,14 @@ class ClassroomController extends Controller
             foreach ($subjectIds as $subjectId) {
                 $data[] = array('year_id' => $yearId, 'classroom_id' => $classroomId, 'semester_id' => $semesterId, 'subject_id' => $subjectId);
             }
-            SubjectDetails::insert(array_unique($data));
-            $subjects = ClassroomRepository::getSubjectsAfterSync($classroomId,$yearId,$subjectIds,$semesterId);
+            SubjectDetails::insert($data);
+            $subjects = ClassroomRepository::getSubjectsAfterSync($classroomId, $yearId, $subjectIds, $semesterId);
             return response()->json(['data' => $subjects], 200);
         } catch (\Exception $exception) {
-            return response()->json(['data' => 'failed to attach subject to semester','ex'=>$exception], 500);
+            return response()->json(['data' => 'failed to attach subject to semester', 'ex' => $exception], 500);
         }
     }
+
     public function detachSubjectToSemester(Request $request)
     {
         $yearId = $request->yearId;
@@ -93,10 +100,10 @@ class ClassroomController extends Controller
         $semesterId = $request->semesterId;
         $subjectId = $request->subjectId;
         try {
-            ClassroomRepository::deleteSubjectsInDetachSemester($classroomId,$yearId,$subjectId,$semesterId);
-            return response()->json(['data' => $subjectId], 200);
+            ClassroomRepository::deleteSubjectsInDetachSemester($classroomId, $yearId, $subjectId, $semesterId);
+            return response()->json(['data' => array('subjectId' => $subjectId, 'semesterId' => $semesterId)], 200);
         } catch (\Exception $exception) {
-            return response()->json(['data' => 'failed to detach subject from semester','ex'=>$exception], 500);
+            return response()->json(['data' => 'failed to detach subject from semester', 'ex' => $exception], 500);
         }
     }
 }
