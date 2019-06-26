@@ -106,4 +106,18 @@ class ClassroomController extends Controller
             return response()->json(['data' => 'failed to detach subject from semester', 'ex' => $exception], 500);
         }
     }
+
+    public function detachTeacherFromClassroom(Request $request)
+    {
+        $yearId = $request->yearId;
+        $classroomId = $request->classroomId;
+        $teacherId = $request->teacherId;
+        try {
+            ClassroomRepository::detachTeacherFromClassroom($classroomId, $yearId, $teacherId);
+            return response()->json(['data' => array('teacherId' => $teacherId)], 200);
+        } catch (\Exception $exception) {
+            return response()->json(['data' => 'failed to detach subject from semester', 'ex' => $exception], 500);
+        }
+
+    }
 }

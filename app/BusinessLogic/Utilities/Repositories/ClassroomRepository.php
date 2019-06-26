@@ -52,4 +52,15 @@ class ClassroomRepository
                 ])
             ->delete();
     }
+
+    public static function detachTeacherFromClassroom($classroomId, $yearId, $teacherId)
+    {
+        return DB::table('users_teachers_details')
+            ->where(
+                [
+                    ['users_teachers_details.classroom_id', $classroomId], ['users_teachers_details.year_id', $yearId],
+                    ['users_teachers_details.user_id', $teacherId]
+                ])
+            ->delete();
+    }
 }
