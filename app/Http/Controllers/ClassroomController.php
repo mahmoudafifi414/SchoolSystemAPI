@@ -112,9 +112,12 @@ class ClassroomController extends Controller
         $yearId = $request->yearId;
         $classroomId = $request->classroomId;
         $teacherId = $request->teacherId;
+        $semesterIds = isset($request->semesterIds) ? $request->semesterIds : null;
+        $semesters = isset($request->semesters) ? $request->semesters : null;
         try {
-            ClassroomRepository::detachTeacherFromClassroom($classroomId, $yearId, $teacherId);
-            return response()->json(['data' => array('teacherId' => $teacherId)], 200);
+            ClassroomRepository::detachTeacherFromClassroom($classroomId, $yearId, $teacherId, $semesterIds);
+            return response()->json(['data' => array('teacherId' => $teacherId,
+                'semesterIds' => $semesterIds, 'semesters' => $semesters)], 200);
         } catch (\Exception $exception) {
             return response()->json(['data' => 'failed to detach subject from semester', 'ex' => $exception], 500);
         }

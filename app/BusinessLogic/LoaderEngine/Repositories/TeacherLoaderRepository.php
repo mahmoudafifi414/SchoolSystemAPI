@@ -17,10 +17,12 @@ class TeacherLoaderRepository implements Repository
             $teacherData->where($condition);
         }
         $teacherData->select(
-            ['users.id AS Id',
+            [
+                'users.id AS Id',
                 'users.name AS Name',
                 'users.email AS Email',
-                DB::raw("GROUP_CONCAT(semesters.name) AS Semester")
+                DB::raw("GROUP_CONCAT(semesters.name) AS Semester"),
+                DB::raw("GROUP_CONCAT(semesters.id) AS SemesterIds"),
             ]
         );
         $teacherData->groupBy('users_teachers_details.user_id');

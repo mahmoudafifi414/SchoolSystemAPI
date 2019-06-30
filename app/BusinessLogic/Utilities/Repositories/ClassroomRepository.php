@@ -53,14 +53,18 @@ class ClassroomRepository
             ->delete();
     }
 
-    public static function detachTeacherFromClassroom($classroomId, $yearId, $teacherId)
+    public static function detachTeacherFromClassroom($classroomId, $yearId, $teacherId, $semesterIds = null)
     {
-        return DB::table('users_teachers_details')
+        $query = DB::table('users_teachers_details')
             ->where(
                 [
                     ['users_teachers_details.classroom_id', $classroomId], ['users_teachers_details.year_id', $yearId],
                     ['users_teachers_details.user_id', $teacherId]
-                ])
-            ->delete();
+                ]);
+
+        if (!is_null($semesterIds)) {
+            $query->whereIn('semester_id', $semesterIds);
+        }
+        return $query->delete();
     }
 }
