@@ -17,6 +17,8 @@ Route::get('/users/{numberPerPage?}', 'UserController@getUsersOfSameNetwork');
 Route::get('/user/prepare-data', 'UserController@prepareDataToAddOrEditUser');
 Route::get('/user/edit/{id}', 'UserController@edit');
 Route::post('/user', 'UserController@store');
+//teacher routes
+Route::get('/teacher', 'TeacherController@getAllTeachers');
 //posts routes
 Route::get('/posts', 'PostsController@getRelatedPosts');
 Route::post('/post/add', 'PostsController@storePost');
