@@ -61,3 +61,5 @@ route::get('/semester/{numberPerPage?}', 'SemesterController@index');
 //Subjects Routes
 
 route::get('/subject/{numbnerPerPage?}', 'SubjectController@index');
+route::post('/subject', 'SubjectController@create');
+route::get('/subject/getRelatedTeachers/{subjectId}', 'SubjectController@getRelatedTeachers');
