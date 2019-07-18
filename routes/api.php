@@ -53,13 +53,14 @@ route::get('/classroom/get-related-subjects/{classroomId}/{yearId}', 'ClassroomC
 route::post('/classroom/get-display-option-data', 'ClassroomController@getDisplayOptionData');
 Route::get('/classroom/get-relations-data/{id}', 'ClassroomController@getRelationsData');
 route::post('/classroom/attachSubjectToSemester', 'ClassroomController@attachSubjectToSemester');
-route::post('/classroom/detachSubjectToSemester', 'ClassroomController@detachSubjectToSemester');
+route::post('/classroom/detachSubjectToSemester', 'ClassroomController@detachSubjectToSemest\er');
 route::post('/classroom/detach-teacher-from-classroom', 'ClassroomController@detachTeacherFromClassroom');
 //semesters routes
 route::get('/semester/{numberPerPage?}', 'SemesterController@index');
 
 //Subjects Routes
-
+Route::get('/subject/get-relations-data/{id}', 'SubjectController@getRelationsData');
 route::get('/subject/{numbnerPerPage?}', 'SubjectController@index');
 route::post('/subject', 'SubjectController@create');
 route::get('/subject/getRelatedTeachers/{subjectId}', 'SubjectController@getRelatedTeachers');
+route::post('/subject/applyTeachersToSubject/{subjectId}', 'SubjectController@applyTeachersToSubject');

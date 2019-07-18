@@ -39,4 +39,25 @@ class SubjectController extends Controller
             return response()->json(['msg' => 'Error Occurred'], 500);
         }
     }
+
+    public function applyTeachersToSubject($subjectId, Request $request)
+    {
+        try {
+            Subject::find($subjectId)->teachers()->sync($request->all());
+            return response()->json(['msg' => 'Teachers Assigned Successfully'], 200);
+        } catch (\Exception $exception) {
+            return response()->json(['msg' => 'Error Happened'], 500);
+        }
+    }
+
+    public function getRelationsData($subjectId)
+    {
+        $yearRelationData = Subject::with([
+            'teachers' => function ($query) {
+                $query->select('users.id', 'users.name');
+            }
+        ])->select('subjects.id','subjects.name')->find($subjectId);
+        return response()->json(['data' => $yearRelationData], 200);
+
+    }
 }
