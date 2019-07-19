@@ -12,4 +12,9 @@ class Subject extends Model
     {
         return $this->belongsToMany(User::class, 'subjects_teachers', 'subject_id', 'teacher_id');
     }
+
+    public function classrooms()
+    {
+        return $this->belongsToMany(Classroom::class, 'subjects_details', 'subject_id');
+    }
 }

@@ -121,6 +121,15 @@ class ClassroomController extends Controller
         } catch (\Exception $exception) {
             return response()->json(['data' => 'failed to detach subject from semester', 'ex' => $exception], 500);
         }
+    }
 
+    public function availableSubjectsWithTeachers(Request $request)
+    {
+        try {
+            $data = ClassroomRepository::getSubjectsWithTeacher($request->all());
+            return response()->json(['data' => $data], 200);
+        } catch (\Exception $exception) {
+            return response()->json(['data' => 'Error Happened', 'ex' => $exception], 500);
+        }
     }
 }

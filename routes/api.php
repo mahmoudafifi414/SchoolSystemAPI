@@ -53,8 +53,9 @@ route::get('/classroom/get-related-subjects/{classroomId}/{yearId}', 'ClassroomC
 route::post('/classroom/get-display-option-data', 'ClassroomController@getDisplayOptionData');
 Route::get('/classroom/get-relations-data/{id}', 'ClassroomController@getRelationsData');
 route::post('/classroom/attachSubjectToSemester', 'ClassroomController@attachSubjectToSemester');
-route::post('/classroom/detachSubjectToSemester', 'ClassroomController@detachSubjectToSemest\er');
+route::post('/classroom/detachSubjectToSemester', 'ClassroomController@detachSubjectToSemester');
 route::post('/classroom/detach-teacher-from-classroom', 'ClassroomController@detachTeacherFromClassroom');
+route::post('/classroom/available-subjects-with-teachers', 'ClassroomController@availableSubjectsWithTeachers');
 //semesters routes
 route::get('/semester/{numberPerPage?}', 'SemesterController@index');
 

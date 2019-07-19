@@ -4,6 +4,7 @@
 namespace App\BusinessLogic\Utilities\Repositories;
 
 
+use App\Subject;
 use Illuminate\Support\Facades\DB;
 
 class ClassroomRepository
@@ -66,5 +67,27 @@ class ClassroomRepository
             $query->whereIn('semester_id', $semesterIds);
         }
         return $query->delete();
+    }
+
+    public static function getSubjectsWithTeacher($request)
+    {
+        return Subject::with([
+            'teachers' => function ($query) use ($request) {
+                $query->where(function ($query) use ($request) {
+                    $query->whereNotIn('users.id', function ($query) use ($request) {
+                        $query->select('user_id')->from('users_teachers_details')
+                            ->where([
+                                ['users_teachers_details.classroom_id', '=', $request['classroomId']],
+                                ['users_teachers_details.year_id', $request['yearId']],
+                                ['users_teachers_details.semester_id', $request['semesterId']]]);
+                    })->orWhereNull('users.id');
+                })->select('users.id', 'users.name');
+            }
+        ])->whereNotIn('subjects.id', function ($query) use ($request) {
+            $query->select('subject_id')->from('subjects_details')
+                ->where([['classroom_id', '=', $request['classroomId']],
+                    ['year_id', $request['yearId']],
+                    ['semester_id', $request['semesterId']]]);
+        })->select('subjects.id', 'subjects.name')->get();
     }
 }
